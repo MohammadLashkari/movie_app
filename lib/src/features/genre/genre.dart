@@ -6,17 +6,20 @@ class Genre extends Equatable {
   const Genre({
     this.id = 0,
     required this.name,
+    required this.imgaeUrl,
     this.isSelected = false,
   });
 
   final int id;
   final String name;
+  final String imgaeUrl;
   final bool isSelected;
 
   Genre toggleSelected() {
     return Genre(
       id: id,
       name: name,
+      imgaeUrl: imgaeUrl,
       isSelected: !isSelected,
     );
   }
@@ -25,5 +28,5 @@ class Genre extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, name, isSelected];
+  List<Object?> get props => [id, name, isSelected, imgaeUrl];
 }

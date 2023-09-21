@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/src/common_widgets/primary_button.dart';
+import 'package:movie_app/src/constants/test_genres.dart';
 import 'package:movie_app/src/features/genre/genre.dart';
 import 'package:movie_app/src/features/genre/genre_card.dart';
 import 'package:movie_app/src/localization/string_hardcoded.dart';
@@ -23,15 +24,7 @@ class _GenreScreenState extends State<GenreScreen> {
     initialItem: genres.length ~/ 2,
   );
 
-  List<Genre> genres = [
-    Genre(name: 'Action'.hardcoded),
-    Genre(name: 'Comedy'.hardcoded),
-    Genre(name: 'Horror'.hardcoded),
-    Genre(name: 'Drama'.hardcoded),
-    Genre(name: 'Romance'.hardcoded),
-    Genre(name: 'Family'.hardcoded),
-    Genre(name: 'Anime'.hardcoded),
-  ];
+  List<Genre> genres = kTestGenres;
 
   void toggleSelected(Genre genre) {
     List<Genre> updatedGenres = [

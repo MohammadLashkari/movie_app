@@ -28,9 +28,24 @@ class GenreCard extends StatelessWidget {
               ? Theme.of(context).colorScheme.primary.withOpacity(0.9)
               : Palette.red300.withOpacity(0.4),
         ),
-        child: Text(
-          genre.name,
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              height: 100,
+              child: Image.asset(
+                genre.imgaeUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Text(
+              genre.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(fontSize: 30),
+            ),
+          ],
         ),
       ),
     );
