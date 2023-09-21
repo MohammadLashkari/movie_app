@@ -33,7 +33,7 @@ class AppTheme {
           .copyWith(
             labelLarge: theme.primaryTextTheme.labelLarge?.copyWith(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           )

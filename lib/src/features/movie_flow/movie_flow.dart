@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/src/common_widgets/primary_button.dart';
+import 'package:movie_app/src/features/genre/genre_screen.dart';
 import 'package:movie_app/src/features/landing/landing_screen.dart';
+import 'package:movie_app/src/features/rating/rating_screen.dart';
 
 class MovieFlow extends StatefulWidget {
   const MovieFlow({super.key});
@@ -35,27 +36,20 @@ class _MovieFlowState extends State<MovieFlow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 70),
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            const LandingScreen(),
-            Container(
-              color: Colors.red,
-            ),
-            Container(
-              color: Colors.green,
-            ),
-            Container(
-              color: Colors.yellow,
-            ),
-          ],
-        ),
-      ),
-      bottomSheet: PrimaryButton(
-        onPressed: nextPage,
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          LandingScreen(nextPage: nextPage),
+          GenreScreen(nextPage: nextPage, previousPage: previousPage),
+          RatingScreen(nextPage: nextPage, previousPage: previousPage),
+          Container(
+            color: Colors.green,
+          ),
+          Container(
+            color: Colors.yellow,
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/src/common_widgets/primary_button.dart';
 import 'package:movie_app/src/features/genre/genre.dart';
+import 'package:movie_app/src/features/genre/genre_card.dart';
+import 'package:movie_app/src/localization/string_hardcoded.dart';
 
 class GenreScreen extends StatefulWidget {
   const GenreScreen({
@@ -16,13 +19,18 @@ class GenreScreen extends StatefulWidget {
 }
 
 class _GenreScreenState extends State<GenreScreen> {
-  List<Genre> genres = const [
-    Genre(name: 'Action'),
-    Genre(name: 'Comedy'),
-    Genre(name: 'Horror'),
-    Genre(name: 'Drama'),
-    Genre(name: 'Romance'),
-    Genre(name: 'Family'),
+  late final _controller = FixedExtentScrollController(
+    initialItem: genres.length ~/ 2,
+  );
+
+  List<Genre> genres = [
+    Genre(name: 'Action'.hardcoded),
+    Genre(name: 'Comedy'.hardcoded),
+    Genre(name: 'Horror'.hardcoded),
+    Genre(name: 'Drama'.hardcoded),
+    Genre(name: 'Romance'.hardcoded),
+    Genre(name: 'Family'.hardcoded),
+    Genre(name: 'Anime'.hardcoded),
   ];
 
   void toggleSelected(Genre genre) {
@@ -34,7 +42,51 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: widget.previousPage,
+        ),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text(
+              'Lest\'s start with a genre'.hardcoded,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            Expanded(
+              child: ListWheelScrollView.useDelegate(
+                itemExtent: 200,
+                controller: _controller,
+                perspective: 0.006,
+                physics: const FixedExtentScrollPhysics(),
+                childDelegate: ListWheelChildBuilderDelegate(
+                  childCount: genres.length,
+                  builder: (context, index) {
+                    final genre = genres[index];
+                    return GenreCard(
+                      genre: genre,
+                      onTap: () => toggleSelected(genre),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PrimaryButton(
+              onPressed: widget.nextPage,
+              text: 'Continue'.hardcoded,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
