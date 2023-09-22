@@ -53,7 +53,7 @@ class _GenreScreenState extends State<GenreScreen> {
           children: [
             Text(
               'Lest\'s start with a genre'.hardcoded,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             Expanded(
               child: ListWheelScrollView.useDelegate(

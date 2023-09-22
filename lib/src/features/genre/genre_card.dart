@@ -31,19 +31,13 @@ class GenreCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(
-              height: 100,
-              child: Image.asset(
-                genre.imgaeUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
+            Image.asset(genre.imgaeUrl, height: 100),
             Text(
               genre.name,
               style: Theme.of(context)
                   .textTheme
                   .labelLarge!
-                  .copyWith(fontSize: 30),
+                  .copyWith(fontSize: 33),
             ),
           ],
         ),

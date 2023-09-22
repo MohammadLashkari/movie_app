@@ -29,6 +29,20 @@ class AppTheme {
         elevation: 0,
         color: Palette.almostBlack,
       ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: Colors.white,
+        inactiveTrackColor: Colors.grey.shade800,
+        thumbColor: Colors.white,
+        valueIndicatorColor: Palette.red500,
+        inactiveTickMarkColor: Colors.transparent,
+        activeTickMarkColor: Colors.transparent,
+        valueIndicatorTextStyle: const TextStyle(fontSize: 20),
+        valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
+        thumbShape: const RoundSliderThumbShape(
+          enabledThumbRadius: 14.0,
+          pressedElevation: 8.0,
+        ),
+      ),
       textTheme: theme.primaryTextTheme
           .copyWith(
             labelLarge: theme.primaryTextTheme.labelLarge?.copyWith(
