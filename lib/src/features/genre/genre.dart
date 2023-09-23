@@ -6,13 +6,13 @@ class Genre extends Equatable {
   const Genre({
     this.id = 0,
     required this.name,
-    required this.imgaeUrl,
+    this.imgaeUrl,
     this.isSelected = false,
   });
 
   final int id;
   final String name;
-  final String imgaeUrl;
+  final String? imgaeUrl;
   final bool isSelected;
 
   Genre toggleSelected() {

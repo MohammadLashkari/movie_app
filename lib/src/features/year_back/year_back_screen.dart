@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_app/src/common_widgets/primary_button.dart';
+import 'package:movie_app/src/features/movie_flow/movie_flow_controller.dart';
+import 'package:movie_app/src/features/result/result_screen.dart';
 import 'package:movie_app/src/localization/string_hardcoded.dart';
 
-class YearBackScreen extends StatefulWidget {
-  const YearBackScreen({
-    super.key,
-    required this.nextPage,
-    required this.previousPage,
-  });
-
-  final VoidCallback nextPage;
-  final VoidCallback previousPage;
+class YearBackScreen extends ConsumerWidget {
+  const YearBackScreen({super.key});
 
   @override
-  State<YearBackScreen> createState() => _YearBackScreenState();
-}
-
-class _YearBackScreenState extends State<YearBackScreen> {
-  double yearsBack = 10;
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(movieFlowControllerProvider);
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -37,7 +28,7 @@ class _YearBackScreenState extends State<YearBackScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${yearsBack.ceil()}',
+                  '${state.yearsBack}',
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
                 Text(
@@ -54,17 +45,22 @@ class _YearBackScreenState extends State<YearBackScreen> {
             ),
             const Spacer(),
             Slider(
-              value: yearsBack,
-              label: '${yearsBack.ceil()}',
+              value: state.yearsBack.toDouble(),
+              label: '${state.yearsBack}',
               min: 0,
               max: 70,
               divisions: 70,
-              onChanged: (value) => setState(() => yearsBack = value),
+              onChanged: (value) => ref
+                  .read(movieFlowControllerProvider.notifier)
+                  .updateYearsBack(
+                    value.toInt(),
+                  ),
             ),
             const Spacer(),
             PrimaryButton(
               text: 'Amazing',
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.of(context).push(ResultScreen.router()),
             ),
           ],
         ),

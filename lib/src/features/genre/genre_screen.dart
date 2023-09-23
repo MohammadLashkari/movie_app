@@ -1,38 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_app/src/common_widgets/primary_button.dart';
-import 'package:movie_app/src/constants/test_genres.dart';
-import 'package:movie_app/src/features/genre/genre.dart';
 import 'package:movie_app/src/features/genre/genre_card.dart';
+import 'package:movie_app/src/features/movie_flow/movie_flow_controller.dart';
 import 'package:movie_app/src/localization/string_hardcoded.dart';
 
-class GenreScreen extends StatefulWidget {
-  const GenreScreen({
-    super.key,
-    required this.nextPage,
-    required this.previousPage,
-  });
-
-  final VoidCallback nextPage;
-  final VoidCallback previousPage;
+class GenreScreen extends ConsumerStatefulWidget {
+  const GenreScreen({super.key});
 
   @override
-  State<GenreScreen> createState() => _GenreScreenState();
+  ConsumerState<GenreScreen> createState() => _GenreScreenState();
 }
 
-class _GenreScreenState extends State<GenreScreen> {
-  late final _controller = FixedExtentScrollController(
-    initialItem: genres.length ~/ 2,
-  );
-
-  List<Genre> genres = kTestGenres;
-
-  void toggleSelected(Genre genre) {
-    List<Genre> updatedGenres = [
-      for (final oldGenre in genres)
-        if (oldGenre == genre) oldGenre.toggleSelected() else oldGenre
-    ];
-    setState(() => genres = updatedGenres);
-  }
+class _GenreScreenState extends ConsumerState<GenreScreen> {
+  late FixedExtentScrollController _controller;
 
   @override
   void dispose() {
@@ -41,11 +22,20 @@ class _GenreScreenState extends State<GenreScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    final genres = ref.read(movieFlowControllerProvider).genres;
+    _controller = FixedExtentScrollController(initialItem: genres.length ~/ 2);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = ref.watch(movieFlowControllerProvider);
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          onPressed: widget.previousPage,
+          onPressed: () =>
+              ref.read(movieFlowControllerProvider.notifier).previousPage(),
         ),
       ),
       body: Center(
@@ -62,19 +52,22 @@ class _GenreScreenState extends State<GenreScreen> {
                 perspective: 0.006,
                 physics: const FixedExtentScrollPhysics(),
                 childDelegate: ListWheelChildBuilderDelegate(
-                  childCount: genres.length,
+                  childCount: state.genres.length,
                   builder: (context, index) {
-                    final genre = genres[index];
+                    final genre = state.genres[index];
                     return GenreCard(
                       genre: genre,
-                      onTap: () => toggleSelected(genre),
+                      onTap: () => ref
+                          .read(movieFlowControllerProvider.notifier)
+                          .toggleSelected(genre),
                     );
                   },
                 ),
               ),
             ),
             PrimaryButton(
-              onPressed: widget.nextPage,
+              onPressed: () =>
+                  ref.read(movieFlowControllerProvider.notifier).nextPage(),
               text: 'Continue'.hardcoded,
             )
           ],

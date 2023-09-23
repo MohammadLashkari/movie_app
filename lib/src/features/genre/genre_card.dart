@@ -31,7 +31,7 @@ class GenreCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset(genre.imgaeUrl, height: 100),
+            Image.asset(genre.imgaeUrl!, height: 100),
             Text(
               genre.name,
               style: Theme.of(context)
